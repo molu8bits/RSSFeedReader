@@ -1,0 +1,1 @@
+/speckit-plan --files StakeholderDocuments/ProjectGoals.md StakeholderDocuments/TechStack.md

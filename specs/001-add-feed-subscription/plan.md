@@ -15,8 +15,10 @@ or removal is included (all deferred to later phases per the stakeholder documen
 
 ## Technical Context
 
-**Language/Version**: C# 12 / .NET 8 (LTS) — ASP.NET Core Web API backend, Blazor WebAssembly
-frontend, per `StakeholderDocuments/TechStack.md`.
+**Language/Version**: C# 13 / .NET 9 — ASP.NET Core Web API backend, Blazor WebAssembly
+frontend, per `StakeholderDocuments/TechStack.md`. (Adjusted from the originally preferred .NET 8
+LTS to .NET 9 because only the .NET 5/9 SDKs are installed in the development environment — see
+research.md.)
 
 **Primary Dependencies**: ASP.NET Core minimal APIs (backend); Blazor WebAssembly component model
 + `HttpClient` (frontend). No external NuGet packages are required for this feature — no feed

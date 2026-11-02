@@ -1,0 +1,1 @@
+ /speckit-implement Implement the MVP First strategy (Tasks: T001 - T020)

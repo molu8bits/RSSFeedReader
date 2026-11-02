@@ -1,0 +1,66 @@
+@page "/"
+@inject HttpClient Http
+
+<PageTitle>Subscriptions</PageTitle>
+
+<h1>Feed Subscriptions</h1>
+
+<div class="input-group mb-3" style="max-width: 480px;">
+    <input @bind="newUrl" @bind:event="oninput" @onkeydown="OnKeyDown"
+           class="form-control" placeholder="https://example.com/feed.xml" />
+    <button class="btn btn-primary" @onclick="AddSubscriptionAsync">Add</button>
+</div>
+
+@if (subscriptions is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (subscriptions.Count == 0)
+{
+    <p><em>No subscriptions yet. Paste a feed URL above and click Add.</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var subscription in subscriptions)
+        {
+            <li>@subscription.Url</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<SubscriptionDto>? subscriptions;
+    private string newUrl = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        subscriptions = await Http.GetFromJsonAsync<List<SubscriptionDto>>("subscriptions");
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await AddSubscriptionAsync();
+        }
+    }
+
+    private async Task AddSubscriptionAsync()
+    {
+        // FR-004/edge case: reject empty or whitespace-only input before calling the API.
+        if (string.IsNullOrWhiteSpace(newUrl))
+        {
+            return;
+        }
+
+        var response = await Http.PostAsJsonAsync("subscriptions", new SubscriptionDto(newUrl));
+        if (response.IsSuccessStatusCode)
+        {
+            newUrl = string.Empty;
+            subscriptions = await Http.GetFromJsonAsync<List<SubscriptionDto>>("subscriptions");
+        }
+    }
+
+    private record SubscriptionDto(string Url);
+}

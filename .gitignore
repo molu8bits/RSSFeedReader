@@ -1,0 +1,29 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+packages/
+
+# Build outputs
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+# Rider / VS
+.vs/
+.idea/
+*.userprefs
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Test results
+TestResults/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp

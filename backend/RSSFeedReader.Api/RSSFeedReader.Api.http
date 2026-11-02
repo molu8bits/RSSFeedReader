@@ -1,0 +1,15 @@
+@RSSFeedReader.Api_HostAddress = http://localhost:5087
+
+GET {{RSSFeedReader.Api_HostAddress}}/api/subscriptions
+Accept: application/json
+
+###
+
+POST {{RSSFeedReader.Api_HostAddress}}/api/subscriptions
+Content-Type: application/json
+
+{
+  "url": "https://devblogs.microsoft.com/dotnet/feed/"
+}
+
+###

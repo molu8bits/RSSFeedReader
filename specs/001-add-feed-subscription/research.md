@@ -5,15 +5,17 @@ All Technical Context items had a reasonable default derivable from
 `NEEDS CLARIFICATION` markers remained after drafting the plan. This document records the
 technology decisions made and the alternatives considered.
 
-## Decision: Target framework — .NET 8 (LTS)
+## Decision: Target framework — .NET 9
 
-- **Decision**: Build both `RSSFeedReader.Api` and `RSSFeedReader.UI` on .NET 8.
-- **Rationale**: .NET 8 is the current LTS release supporting ASP.NET Core Web API and Blazor
-  WebAssembly, matches the cross-platform requirement (Windows/macOS/Linux) in
-  `TechStack.md`, and gives the longest support window for a project meant to evolve through
-  Extended-MVP and Post-MVP phases.
-- **Alternatives considered**: .NET 9 (newer, but STS with a shorter support window; no feature in
-  this MVP requires it) — rejected in favor of LTS stability.
+- **Decision**: Build both `RSSFeedReader.Api` and `RSSFeedReader.UI` on .NET 9.
+- **Rationale**: .NET 8 (LTS) was the original preference for the longest support window, but the
+  development environment only has the .NET 5 and .NET 9 SDKs installed (no .NET 8 SDK, only the
+  runtime) — `dotnet new` does not offer `net8.0` as a template target without the matching SDK.
+  .NET 9 still satisfies the cross-platform requirement in `TechStack.md` and is what `dotnet new`
+  and `dotnet build` actually support in this environment.
+- **Alternatives considered**: .NET 8 (original LTS choice) — deferred; would require installing
+  the .NET 8 SDK, which was out of scope for this implementation pass. Revisit if/when the .NET 8
+  SDK becomes available.
 
 ## Decision: Backend API style — Minimal APIs
 

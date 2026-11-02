@@ -22,34 +22,34 @@ testing of each story.
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create the `backend/RSSFeedReader.Api` (ASP.NET Core Web API) and
-      `frontend/RSSFeedReader.UI` (Blazor WebAssembly) projects targeting .NET 8, per the
-      project structure in [plan.md](./plan.md)
-- [ ] T002 [P] Configure the backend port in
-      `backend/RSSFeedReader.Api/Properties/launchSettings.json`
-- [ ] T003 [P] Configure the frontend port in
-      `frontend/RSSFeedReader.UI/Properties/launchSettings.json`
-- [ ] T004 [P] Set `ApiBaseUrl` in `frontend/RSSFeedReader.UI/wwwroot/appsettings.json` to point
+- [X] T001 Create the `backend/RSSFeedReader.Api` (ASP.NET Core Web API) and
+      `frontend/RSSFeedReader.UI` (Blazor WebAssembly) projects targeting .NET 9 (adjusted from
+      .NET 8 — see research.md), per the project structure in [plan.md](./plan.md)
+- [X] T002 [P] Configure the backend port in
+      `backend/RSSFeedReader.Api/Properties/launchSettings.json` (template default: 5087/7051)
+- [X] T003 [P] Configure the frontend port in
+      `frontend/RSSFeedReader.UI/Properties/launchSettings.json` (template default: 5193/7188)
+- [X] T004 [P] Set `ApiBaseUrl` in `frontend/RSSFeedReader.UI/wwwroot/appsettings.json` to point
       at the backend port configured in T002
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
 **Purpose**: Prerequisites that MUST complete before any user story work begins
 
-- [ ] T005 [P] Remove the template demo pages `Home.razor`, `Counter.razor`, and
+- [X] T005 [P] Remove the template demo pages `Home.razor`, `Counter.razor`, and
       `Weather.razor` from `frontend/RSSFeedReader.UI/Pages/`, and remove their corresponding
       links from `frontend/RSSFeedReader.UI/Layout/NavMenu.razor` (constitution Principle III)
-- [ ] T006 Verify template cleanup by running `dotnet clean` and `dotnet build` on
+- [X] T006 Verify template cleanup by running `dotnet clean` and `dotnet build` on
       `frontend/RSSFeedReader.UI/RSSFeedReader.UI.csproj` and confirming no ambiguous-route
       errors, per the Setup steps in [quickstart.md](./quickstart.md)
-- [ ] T007 [P] Create the `Subscription` model in
+- [X] T007 [P] Create the `Subscription` model in
       `backend/RSSFeedReader.Api/Models/Subscription.cs` with a single required `Url` field of
       type `string` (data-model.md: "`Url` MUST NOT be empty or whitespace-only before being
       added to the store")
-- [ ] T008 Create the `SubscriptionStore` singleton service in
+- [X] T008 Create the `SubscriptionStore` singleton service in
       `backend/RSSFeedReader.Api/Services/SubscriptionStore.cs` holding a lock-protected,
       insertion-ordered list of `Subscription` records (research.md: in-memory storage decision)
-- [ ] T009 Register `SubscriptionStore` as a singleton and configure an explicit CORS origin
+- [X] T009 Register `SubscriptionStore` as a singleton and configure an explicit CORS origin
       allow-list (no wildcard origins) using the frontend port from T003, in
       `backend/RSSFeedReader.Api/Program.cs` (constitution Principle I)
 
@@ -63,21 +63,21 @@ subscription list without a page reload.
 **Independent Test**: Enter a URL into the input field, submit it, and confirm it now appears in
 the subscription list.
 
-- [ ] T010 [US1] Implement the `POST /api/subscriptions` minimal API endpoint in
+- [X] T010 [US1] Implement the `POST /api/subscriptions` minimal API endpoint in
       `backend/RSSFeedReader.Api/Program.cs`: reject an empty or whitespace-only `url` with
       `400 Bad Request`, otherwise append it to `SubscriptionStore` and return `201 Created` with
       the created `Subscription` (contracts/subscriptions-api.md, FR-001, FR-004)
-- [ ] T011 [US1] Implement the `GET /api/subscriptions` minimal API endpoint in
+- [X] T011 [US1] Implement the `GET /api/subscriptions` minimal API endpoint in
       `backend/RSSFeedReader.Api/Program.cs`, returning all subscriptions from
       `SubscriptionStore` in insertion order (contracts/subscriptions-api.md, FR-002)
-- [ ] T012 [P] [US1] Create `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor` with the
+- [X] T012 [P] [US1] Create `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor` with the
       `@page "/"` route, containing a URL text input and an "Add" button (FR-001)
-- [ ] T013 [US1] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, wire the "Add" button
+- [X] T013 [US1] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, wire the "Add" button
       to call `POST /api/subscriptions` via `HttpClient` and refresh the displayed list on
       success, with no full page reload (FR-003)
-- [ ] T014 [US1] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, prevent submission
+- [X] T014 [US1] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, prevent submission
       when the input is empty or whitespace-only (edge case in [spec.md](./spec.md))
-- [ ] T015 [P] [US1] Update `frontend/RSSFeedReader.UI/Layout/NavMenu.razor` to link to the
+- [X] T015 [P] [US1] Update `frontend/RSSFeedReader.UI/Layout/NavMenu.razor` to link to the
       subscriptions page with a label reflecting the MVP feature (e.g., "Subscriptions")
 
 **Checkpoint**: User Story 1 should be fully functional and independently testable — a user can
@@ -91,10 +91,10 @@ the UI.
 **Independent Test**: Load the app with subscriptions already present in memory and confirm they
 are all rendered in the list.
 
-- [ ] T016 [US2] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, call
+- [X] T016 [US2] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, call
       `GET /api/subscriptions` during `OnInitializedAsync` to load the existing subscription list
       on page load (FR-002)
-- [ ] T017 [US2] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, render the loaded
+- [X] T017 [US2] In `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`, render the loaded
       subscriptions as a simple list showing each entry's URL, in the order returned by the API
       (data-model.md, FR-002)
 
@@ -103,14 +103,18 @@ the page shows every subscription added so far.
 
 ## Phase 5: Polish & Cross-Cutting Concerns
 
-- [ ] T018 [P] Run the local development checklist in [quickstart.md](./quickstart.md) (backend
+- [X] T018 [P] Run the local development checklist in [quickstart.md](./quickstart.md) (backend
       runs without errors, frontend runs without errors, `ApiBaseUrl` correct, CORS allows the
-      frontend origin, browser console free of connection errors)
-- [ ] T019 [P] Execute the 4 validation scenarios in [quickstart.md](./quickstart.md) (add a
-      subscription, add multiple subscriptions, reject blank input, confirm in-memory-only
-      storage) and confirm the expected outcomes
-- [ ] T020 Review `backend/RSSFeedReader.Api` and `frontend/RSSFeedReader.UI` for dead code,
-      commented-out blocks, and unused template artifacts (constitution Principle III)
+      frontend origin verified via automated preflight check; browser console check is a manual
+      follow-up since no browser is available in this environment)
+- [X] T019 [P] Execute the 4 validation scenarios in [quickstart.md](./quickstart.md) (add a
+      subscription, add multiple subscriptions — verified with 5, reject blank input — verified
+      `400`, confirm in-memory-only storage — verified reset to 0 after restart) via direct API
+      calls
+- [X] T020 Review `backend/RSSFeedReader.Api` and `frontend/RSSFeedReader.UI` for dead code,
+      commented-out blocks, and unused template artifacts (constitution Principle III) — removed
+      the stale `/weatherforecast` sample from `RSSFeedReader.Api.http` and the unused
+      `wwwroot/sample-data/weather.json`
 
 ## Dependencies & Execution Order
 
